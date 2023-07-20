@@ -25,7 +25,7 @@ If you want to run JSF 2.0 portlet on HCL DX 9.5 running over WAS 9.0.5.x, you s
 # Troubleshooting JSF application on HCL DX 9.5 with WAS 9.0.5.x
 
 1. **JSF.JS is not loading correctly, the returned response contains HTML.**  
-Ans. You should try to set context parameter **javax.faces.PROJECT_STAGE** to **Development** and see you are able to load JSF.JS file on the page. If that's the case, its issue related to JSF.JS caching when PROJECT_STAGE is set to **Production**.
+Ans. You should try to set context parameter **javax.faces.PROJECT_STAGE** to **Development** in **web.xml** file and see you are able to load JSF.JS file on the page. If that's the case, its issue related to JSF.JS caching when PROJECT_STAGE is set to **Production**. To resolve this either keep PROJECT_STAGE as Development or set context parameter **org.apache.myfaces.RESOURCE_HANDLER_CACHE_ENABLED** to **false** as mentioned above.
 
 2. **My page is not rendering completely.  In the logs getting Serialization issue.**  
 Ans. If you are using Session beans, Request beans make sure that they are marked with **Serializable** interface and are Serializable. In older version of Portal, JSF bridge hanles serialization issue but new JSF bridge is more conformant to JSF specification and hence it requires beans to be Serializable.
@@ -33,10 +33,13 @@ Ans. If you are using Session beans, Request beans make sure that they are marke
 3. **My JSF 2.0 application is not working properly, facing many issues.**  
 Ans. From my experience I recommend to use HCL DX 9.5 with at least CF206 or newer which contains most stable version of JSF bridge. Also, there are few fixes coming from IBM team, which will be incorporated in WAS 9.0.5.17. So, if you are on any fix pack less than 206, please consider for upgradation.
 
-4. Is there any migration guide available for migrating JSF 2.0 running on portal 8.0 to 9.5?  
-Ans. No, there is no migration guide. If you are already using JSF 2.0 specification, then there are not much changes required. Some changes that I know is listed below -
-    - Compilation with new WAS libraries
-    - Changes of Portlet classes listed in the [URL](https://opensource.hcltechsw.com/digital-experience/CF213/extend_dx/portlets_development/usage/jsf/)
-    - Updating libraries to be compatible and supported with Java 8
-    - Migrating to new View attribute parameter to **com.ibm.faces.portlet.VIEWID** from **com.ibm.faces.portlet.page.view**
-    - Theme update to utilize new modules available in portal 9.5
+4. **Is there any migration guide available for migrating JSF 2.0 running on portal 8.0 to 9.5?**  
+Ans. No, there is no migration guide. If you are already using JSF 2.0 specification, then there are not much changes required. Some changes that I know is listed below:
+    1. Compilation with new WAS libraries
+    2. Changes of Portlet classes listed in the [URL](https://opensource.hcltechsw.com/digital-experience/CF213/extend_dx/portlets_development/usage/jsf/)
+    3. Updating libraries to be compatible and supported with Java 8
+    4. Migrating to new View attribute parameter to **com.ibm.faces.portlet.VIEWID** from **com.ibm.faces.portlet.page.view**
+    5. Theme update to utilize new modules available in portal 9.5  
+    
+5. **I am not getting clicked button ID in request parameter when doing Ajax submit, what to do?**  
+Ans. If you are on WAS 9.0.5.16 or lower, please contact IBM Support to get the interim fix for [MYFACES-4606](https://issues.apache.org/jira/browse/MYFACES-4606). This will solve the issue or you can change your code to check request parameter with key **javax.faces.source** that will contain button of ID in case of Ajax and Action submit.
